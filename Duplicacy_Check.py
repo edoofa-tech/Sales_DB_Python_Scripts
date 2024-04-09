@@ -11,10 +11,13 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 def authenticate_google_sheets():
     scope = ['https://spreadsheets.google.com/feeds',
              'https://www.googleapis.com/auth/spreadsheets',
+             'https://www.googleapis.com/auth/drive.file',
              'https://www.googleapis.com/auth/drive']
-    creds_dict = json.loads(os.getenv('GCP_CREDENTIALS'))
+    creds_json = os.getenv('GCP_CREDENTIALS')
+    creds_dict = json.loads(creds_json)
     creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
-    return gspread.authorize(creds)
+    client = gspread.authorize(creds)
+    return client
 
 def fetch_form_id_from_sheet(client, spreadsheet_id, sheet_name='Duplicacy Check'):
     worksheet = client.open_by_key(spreadsheet_id).worksheet(sheet_name)
