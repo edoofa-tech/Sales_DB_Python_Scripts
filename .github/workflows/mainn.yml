@@ -17,6 +17,10 @@ jobs:
     - name: Install dependencies
       run: |
         pip install gspread oauth2client mysql-connector-python
+
+    - name: Install dependencies
+      run: |
+        pip install pandas gspread oauth2client mysql-connector-python    
         
     - name: Run script
       run: python Duplicacy_Check.py
