@@ -1,0 +1,22 @@
+name: Run Python Script
+on:
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+        
+    - name: Install dependencies
+      run: |
+        pip install gspread oauth2client mysql-connector-python
+        
+    - name: Run script
+      run: python path/to/your/script.py
