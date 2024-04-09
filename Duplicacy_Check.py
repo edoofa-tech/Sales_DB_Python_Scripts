@@ -8,13 +8,13 @@ from datetime import datetime
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def authenticate_google_sheets(creds_file):
-    scope = ['https://spreadsheets.google.com/feeds', 
-             'https://www.googleapis.com/auth/spreadsheets', 
+def authenticate_google_sheets():
+    scope = ['https://spreadsheets.google.com/feeds',
+             'https://www.googleapis.com/auth/spreadsheets',
              'https://www.googleapis.com/auth/drive']
-    creds = ServiceAccountCredentials.from_json_keyfile_name(creds_file, scope)
-    client = gspread.authorize(creds)
-    return client
+    creds_dict = json.loads(os.getenv('GCP_CREDENTIALS'))
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+    return gspread.authorize(creds)
 
 def fetch_form_id_from_sheet(client, spreadsheet_id, sheet_name='Duplicacy Check'):
     worksheet = client.open_by_key(spreadsheet_id).worksheet(sheet_name)
@@ -75,7 +75,7 @@ DB_NAME = 'edoofadb'
 
 # Authenticate and connect
 creds_file_path = 'C:\\Users\\aditya\\OneDrive\\Documents\\HeidiSQL-Edoofa-DB\\credentials.json'  # Windows path format
-client = authenticate_google_sheets(creds_file_path)
+client = authenticate_google_sheets()
 db_connection = mysql.connector.connect(host=DB_HOST, user=DB_USER, passwd=DB_PASSWORD, database=DB_NAME)
 
 # Fetch form_id from the sheet
