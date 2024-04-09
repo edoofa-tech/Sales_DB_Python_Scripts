@@ -19,4 +19,4 @@ jobs:
         pip install gspread oauth2client mysql-connector-python
         
     - name: Run script
-      run: python path/to/your/script.py
+      run: python Duplicacy_Check.py
